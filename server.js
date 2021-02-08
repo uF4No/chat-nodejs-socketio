@@ -66,10 +66,14 @@ io.on('connection', function (socket) {
     // saves user to list
     users[socket.id] = data.username
     socket.emit('welcome', {
-      user: data.username,
+      user: 'server',
       message: `Welcome to this Socket.io chat ${data.username}. There are ${
         Object.keys(users).length
       } users`,
+    })
+    socket.broadcast.emit('broadcast-message', {
+      user: 'server',
+      message: `🗣${data.username} has joined the chat`,
     })
   })
   socket.on('new-message', (data) => {
