@@ -1,5 +1,5 @@
 # use Node slim base image
-FROM node:10.13-slim
+FROM node:14-slim
 WORKDIR /app
 # copy client files
 COPY client ./client/
