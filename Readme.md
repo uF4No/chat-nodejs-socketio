@@ -5,6 +5,8 @@
 This project contains a static server that serves the HTML/CSS/JS required for the chat app.
 When a message is sent from a client,the message is broadcasted to the rest of the connected clients with the name of the user that sent it.
 
+![Chat working](./chat.gif)
+
 ## Built with
 
 - Node.js
