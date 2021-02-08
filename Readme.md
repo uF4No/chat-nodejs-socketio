@@ -15,7 +15,7 @@ When a message is sent from a client,the message is broadcasted to the rest of t
 
 ## How to run
 
-You can run this app locally with Node.js or with Docker:
+You can run this app locally with Node.js **or** with Docker:
 
 ### Run with Node.js
 
@@ -26,7 +26,7 @@ You can run this app locally with Node.js or with Docker:
 ### Run with Docker
 
 - Create docker image: `docker build --rm -f "Dockerfile" -t chatsocketio:latest .`
-- Run image: `docker run -rm -it -p 3000:3000/tcp socketio-chat:latest`
+- Run image: `docker run -rm -it -p 3000:3000/tcp chatsocketio:latest`
 - Visit localhost:3000 in your browser
 
 ## Author
