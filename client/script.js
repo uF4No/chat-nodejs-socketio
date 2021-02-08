@@ -35,12 +35,12 @@ messageForm.addEventListener('submit', (e) => {
 })
 
 socket.on('welcome', function (data) {
-  console.log(data)
+  console.log('📢 welcome event >> ', data)
   addMessage(data)
 })
 
 socket.on('broadcast-message', (data) => {
-  console.log('broadcast message event')
+  console.log('📢 broadcast-message event >> ', data)
   addMessage(data)
 })
 

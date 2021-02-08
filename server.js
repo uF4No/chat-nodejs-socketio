@@ -5,6 +5,43 @@ var path = require('path')
 const APP_PORT = process.env.APP_PORT || 3000
 
 const app = http.createServer(requestHandler)
+
+// we'll store the users in this object as socketId: username
+const users = {}
+
+var io = require('socket.io')(app)
+// starts socket
+io.on('connection', function (socket) {
+  console.log('👾 Started socket.io. Waiting for clients...')
+  // Manage all socket.io events next...
+  socket.on('new-connection', (data) => {
+    console.log(`👾 new-connection event ${data.username}`)
+    // saves user to list
+    users[socket.id] = data.username
+    socket.emit('welcome', {
+      user: 'server',
+      message: `Welcome to this Socket.io chat ${data.username}. There are ${
+        Object.keys(users).length
+      } users`,
+    })
+    socket.broadcast.emit('broadcast-message', {
+      user: 'server',
+      message: `🗣${data.username} has joined the chat`,
+    })
+  })
+  socket.on('new-message', (data) => {
+    console.log(`👾 new-message from ${data.user}`)
+    // broadcast message to all sockets except the one that triggered the event
+    socket.broadcast.emit('broadcast-message', {
+      user: users[data.user],
+      message: data.message,
+    })
+  })
+  socket.on('disconnect', () => {
+    console.log('user disconnected')
+  })
+})
+
 app.listen(APP_PORT)
 console.log(`🖥 HTTP Server running at ${APP_PORT}`)
 
@@ -52,36 +89,3 @@ function requestHandler(request, response) {
     }
   })
 }
-
-// we'll store the users in this object as socketId: username
-const users = {}
-
-var io = require('socket.io')(app)
-// starts socket
-io.on('connection', function (socket) {
-  console.log('👾 Started socket.io. Waiting for clients...')
-  // Manage all socket.io events next...
-  socket.on('new-connection', (data) => {
-    console.log(`👾 new-connection event ${data.username}`)
-    // saves user to list
-    users[socket.id] = data.username
-    socket.emit('welcome', {
-      user: 'server',
-      message: `Welcome to this Socket.io chat ${data.username}. There are ${
-        Object.keys(users).length
-      } users`,
-    })
-    socket.broadcast.emit('broadcast-message', {
-      user: 'server',
-      message: `🗣${data.username} has joined the chat`,
-    })
-  })
-  socket.on('new-message', (data) => {
-    console.log(`👾 new-message from ${data.user}`)
-    // broadcast message to all sockets except the one that triggered the event
-    socket.broadcast.emit('broadcast-message', {
-      user: users[data.user],
-      message: data.message,
-    })
-  })
-})
