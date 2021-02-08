@@ -31,4 +31,4 @@ You can run this app locally with Node.js or with Docker:
 
 ## Author
 
-Antonio Ufano - [antonioufano.com](https://antonioufano.com)
+Antonio Ufano - [web](https://antonioufano.com) - [Twitter](https://twitter.com/uf4no)
